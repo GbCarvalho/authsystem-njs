@@ -1,5 +1,11 @@
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useState } from "react";
 import { api } from "../services/api";
+
+type User = {
+  email: string;
+  permissions: string[];
+  roles: string[];
+};
 
 type SignInCredentials = {
   email: string;
@@ -18,6 +24,7 @@ type AuthProviderProps = {
 export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<User>();
   const isAuthenticated = false;
 
   async function signIn({ email, password }: SignInCredentials) {
@@ -27,7 +34,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password,
       });
 
-      console.log(response);
+      const { permissions, roles } = response.data;
+
+      setUser({
+        email,
+        permissions,
+        roles,
+      });
     } catch (err) {
       console.error(err);
     }
