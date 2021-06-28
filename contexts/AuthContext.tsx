@@ -21,12 +21,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = false;
 
   async function signIn({ email, password }: SignInCredentials) {
-    const response = await api.post("sessions", {
-      email,
-      password,
-    });
+    try {
+      const response = await api.post("sessions", {
+        email,
+        password,
+      });
 
-    console.log(response);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
