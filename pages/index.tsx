@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSubmit() {
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+
     const data = {
       email,
       password,
