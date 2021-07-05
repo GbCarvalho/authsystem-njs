@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import Router from "next/router";
 import { api } from "../services/api";
-import { parseCookies, setCookie } from "nookies";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 
 type User = {
   email: string;
@@ -34,11 +34,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { "authsys.token": token } = parseCookies();
 
     if (token) {
-      api.get("/me").then((response) => {
-        const { email, permissions, roles } = response.data;
+      api
+        .get("/me")
+        .then((response) => {
+          const { email, permissions, roles } = response.data;
 
-        setUser({ email, permissions, roles });
-      });
+          setUser({ email, permissions, roles });
+        })
+        .catch(() => {
+          destroyCookie(undefined, "authsys.token");
+          destroyCookie(undefined, "authsys.refreshToken");
+
+          Router.push("/");
+        });
     }
   }, []);
 
