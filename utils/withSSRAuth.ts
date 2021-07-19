@@ -5,7 +5,7 @@ import {
 } from "next";
 import { parseCookies } from "nookies";
 
-export async function withSSRAuth<P>(fn: GetServerSideProps<P>) {
+export function withSSRAuth<P>(fn: GetServerSideProps<P>) {
   return async (
     ctx: GetServerSidePropsContext
   ): Promise<GetServerSidePropsResult<P>> => {
@@ -19,6 +19,6 @@ export async function withSSRAuth<P>(fn: GetServerSideProps<P>) {
         },
       };
     }
-    return await fn(ctx);
+    return fn(ctx);
   };
 }

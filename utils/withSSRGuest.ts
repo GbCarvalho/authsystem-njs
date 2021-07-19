@@ -5,7 +5,7 @@ import {
 } from "next";
 import { parseCookies } from "nookies";
 
-export async function withSSRGuest<P>(fn: GetServerSideProps<P>) {
+export function withSSRGuest<P>(fn: GetServerSideProps<P>) {
   return async (
     ctx: GetServerSidePropsContext
   ): Promise<GetServerSidePropsResult<P>> => {
@@ -19,6 +19,7 @@ export async function withSSRGuest<P>(fn: GetServerSideProps<P>) {
         },
       };
     }
-    return await fn(ctx);
+
+    return fn(ctx);
   };
 }
