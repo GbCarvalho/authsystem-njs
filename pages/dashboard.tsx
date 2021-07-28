@@ -29,6 +29,7 @@ export const getServerSideProps = withSSRAuth(async (ctx) => {
   const apiClient = setupAPIClient(ctx);
   const response = await apiClient.get("/me");
 
+  // This console.log is just for demo purposes.
   console.log(response.data);
 
   return {
